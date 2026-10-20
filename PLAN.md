@@ -1,0 +1,34 @@
+# SmartDocs AI - Implementation Plan & Progress
+
+- [x] **Phase 1: Environment Inspection & Architectural Blueprint**
+  - Detect Node.js v24.18.0, npm 11.16.0, Git initialized, PostgreSQL 18.4 running on port 5432.
+  - Structure: Monorepo with `frontend/`, `backend/`, `docs/`, `.github/workflows/`, `docker-compose.yml`.
+- [ ] **Phase 2: Project Setup & Dependencies**
+  - Backend: Node.js + Express + TypeScript, Zod, pg, pgvector, bcryptjs, jsonwebtoken, multer, pdf-parse, @google/genai (or @google/generative-ai), cors, helmet, dotenv, morgan, express-rate-limit.
+  - Frontend: React + Vite + TypeScript, React Router, Lucide icons, Axios, Tailwind/CSS.
+- [ ] **Phase 3: Database & pgvector Migrations**
+  - Setup migrations runner, schema definition (users, documents, document_chunks with VECTOR column, conversations, messages).
+  - Seed/migration execution scripts.
+- [ ] **Phase 4: Authentication & Core Backend API**
+  - Registration, Login, Logout, /me, JWT authentication middleware, password hashing with bcrypt, input validation.
+- [ ] **Phase 5: Document Ingestion Pipeline**
+  - Upload handling (PDF & TXT), cryptographic deduplication (SHA-256), text extraction with page preservation, chunking with configurable overlap.
+- [ ] **Phase 6: Embeddings & Vector Search**
+  - Configurable AI embedding provider (Google Gemini `text-embedding-004` / mock fallback for deterministic tests), batch embeddings, pgvector cosine similarity search (`<=>`), per-user security boundary.
+- [ ] **Phase 7: RAG Generation & Grounding**
+  - Configurable LLM provider (Gemini 1.5 Pro / Flash / mock fallback), prompt crafting with strict grounding instructions, anti-hallucination guardrails, citation verification against real chunk IDs.
+- [ ] **Phase 8: Conversation History & Management**
+  - Conversations and messages persistence, conversational context window, cascade document deletion.
+- [ ] **Phase 9: Frontend Implementation**
+  - Modern, responsive React UI: Auth pages, Dashboard with real analytics, Document Library & Upload modal, Chat Workspace with stream/loading indicators, source citations drawer/preview, error boundaries.
+- [ ] **Phase 10: Security Hardening & Rate Limiting**
+  - CORS, Helmet headers, upload size limits (10MB), prompt injection sanitization, cross-user isolation.
+- [ ] **Phase 11: Testing & Verification**
+  - Backend unit & integration tests (Vitest/Supertest) including cross-user isolation test.
+  - Frontend component tests.
+- [ ] **Phase 12: RAG Evaluation Suite**
+  - 20-question evaluation dataset with retrieval precision, source verification, and answer evaluation test runner.
+- [ ] **Phase 13: Docker, Local Dev & CI/CD**
+  - Dockerfiles (frontend & backend), docker-compose.yml with pgvector/pgvector:pg16, GitHub Actions CI workflow.
+- [ ] **Phase 14: Comprehensive Documentation & Interview Guide**
+  - README.md, docs/architecture.md, docs/database-schema.md, docs/api-documentation.md, docs/security.md, docs/deployment.md, docs/interview-guide.md.

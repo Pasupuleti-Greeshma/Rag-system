@@ -1,0 +1,35 @@
+# SmartDocs AI: System Specifications & Architectural Overview
+
+## 1. Executive Summary
+SmartDocs AI is an enterprise document intelligence and question-answering platform built on Retrieval-Augmented Generation (RAG). It combines high-dimensional vector search with grounded generative AI models to provide verifiable, citeable answers from uploaded corporate documents.
+
+## 2. Supported Formats & Upload Limits
+- **Permitted File Formats:** PDF (.pdf) and Plain Text (.txt)
+- **Maximum File Size:** 10 Megabytes (MB) per file
+- **Deduplication:** Every file is hashed using SHA-256 upon arrival. If an identical file exists for that user, it is rejected with a 409 Conflict status code to prevent duplicate embeddings.
+
+## 3. Ingestion & Chunking Strategy
+- **Target Chunk Size:** 800 characters per chunk
+- **Chunk Overlap:** 150 characters
+- **Page Provenance:** The extraction pipeline extracts text page by page, tagging each chunk with its original page number so that every answer citation links back to a verifiable page.
+
+## 4. Vector Store & Database Design
+- **Database Engine:** PostgreSQL 18 with relational indexing
+- **Vector Search Engine:** PostgreSQL with array cosine similarity and pgvector compatibility
+- **Embedding Model:** Gemini Embedding (gemini-embedding-001) producing 3,072-dimensional normalized vectors
+- **Similarity Metric:** Cosine similarity where similarity score = (A . B) / (||A|| * ||B||)
+- **Top-K Retrieval:** Default is 5 chunks per query
+- **Similarity Threshold:** Minimum similarity score of 0.3 required for relevance
+
+## 5. Security & Multi-Tenancy Architecture
+- **Tenant Isolation:** Every chunk, document, conversation, and message record is scoped to user_id. Cross-user access is impossible because SQL queries explicitly enforce user_id checks.
+- **Password Security:** Passwords are encrypted using bcryptjs with 12 salt rounds.
+- **Session Tokens:** Authentication uses HMAC SHA-256 JSON Web Tokens (JWT) with a 7-day expiration.
+- **Untrusted Context Guardrails:** The system prompt explicitly tells the LLM to treat document text as untrusted data and ignore prompt injection attempts (e.g., "ignore all previous instructions").
+
+## 6. Financial & Operational Highlights (Q3 Benchmark)
+- **Total Revenue:** $48.5 Million
+- **Operating Profit:** $14.2 Million (an 18% increase year-over-year)
+- **Active Customers:** 1,240 enterprise organizations
+- **System Uptime:** 99.98% availability across all regions
+- **Primary Cloud Host:** Managed multi-region container deployments with private persistent storage.
